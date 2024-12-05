@@ -1,2 +1,2 @@
-# Health-Fitness-Tracker
-project
+# Health Fitness Tracker
+Software Engineering Project
