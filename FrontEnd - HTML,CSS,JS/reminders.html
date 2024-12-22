@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reminders</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%; /* Full height for the page */
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            width: 100%;
+            position: fixed; /* Keep header fixed at the top */
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        nav ul li a.active {
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+
+        .btn-logout {
+            padding: 0.5rem 1rem;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Main Reminders Section */
+        .reminders-container {
+            max-width: 1400px;  /* Increased max-width */
+            width: 100%;
+            margin-top: 80px;  /* Give space for the fixed header */
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .reminders-header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .reminders-header h2 {
+            font-size: 2rem;  /* Increased font size */
+            margin-bottom: 0.5rem;
+        }
+
+        .reminder-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            background-color: #f9f9f9;
+        }
+
+        .reminder-item p {
+            margin: 0;
+        }
+
+        .reminder-item button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #dc3545;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .reminder-item button:hover {
+            background-color: #c82333;
+        }
+
+        .add-reminder {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .add-reminder input {
+            flex: 1;
+            padding: 0.75rem;  /* Increased input padding */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .add-reminder button {
+            padding: 0.75rem 1rem;  /* Increased button padding */
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .add-reminder button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Logo</div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="userProfile.html">Profile</a></li>
+                <li><a href="goals.html">Goals</a></li>
+                <li><a href="checkin.html">Check-In</a></li>
+                <li><a href="reminders.html" class="active">Reminders</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </nav>
+        <button class="btn-logout">Log Out</button>
+    </header>
+
+    <div class="reminders-container">
+        <div class="reminders-header">
+            <h2>Reminders</h2>
+        </div>
+
+        <div class="reminder-item">
+            <p>Drink Water</p>
+            <button>Delete</button>
+        </div>
+
+        <div class="reminder-item">
+            <p>Take a Walk</p>
+            <button>Delete</button>
+        </div>
+
+        <div class="reminder-item">
+            <p>Evening Meditation</p>
+            <button>Delete</button>
+        </div>
+
+        <form class="add-reminder">
+            <input type="text" placeholder="Add a new reminder">
+            <button type="submit">Add</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 320px;
+            padding: 25px 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        button:hover {
+            background: #333;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .footer-text {
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .forgot-password {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form action="login.php" method="POST">
+            <input type="email" name="email" id="email" placeholder="Example@gmail.com" required>
+            <input type="password" name="password" id="password" placeholder="Enter Password" required>
+            <button type="submit">Sign In</button>
+        </form>        
+        <div class="forgot-password">
+            <a href="#">Forgot password?</a>
+        </div>
+        <div class="footer-text">
+            New? <a href="signup.html">Create an account</a>
+        </div>
+    </div>
+</body>
+</html>

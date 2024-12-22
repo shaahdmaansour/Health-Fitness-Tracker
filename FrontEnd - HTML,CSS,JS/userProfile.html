@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        nav ul li a.active {
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+
+        .btn-logout {
+            padding: 0.5rem 1rem;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Main Profile Section */
+        .profile-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            background-color: #ddd;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: #aaa;
+        }
+
+        .profile-details {
+            flex: 1;
+        }
+
+        .profile-details h2 {
+            margin-bottom: 1rem;
+        }
+
+        .profile-details .details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .details label {
+            font-weight: bold;
+        }
+
+        .details input {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 0.5rem;
+            width: 150px;
+        }
+
+        .edit-buttons {
+            margin-top: 1rem;
+        }
+
+        .edit-buttons button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #ddd;
+            cursor: pointer;
+            margin-right: 1rem;
+        }
+
+        /* Activities Section */
+        .activities {
+            margin-top: 2rem;
+        }
+
+        .activities h3 {
+            margin-bottom: 1rem;
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .activity-card {
+            background-color: #fff;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Logo</div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="userProfile.php" class="active">Profile</a></li>
+                <li><a href="goals.html">Goals</a></li>
+                <li><a href="checkin.html">Check-In</a></li>
+                <li><a href="reminders.html">Reminders</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </nav>
+        <button class="btn-logout" onclick="window.location.href='logout.php'">Log Out</button>
+    </header>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-image">
+                <?php
+                    // If the user has a profile picture, display it; otherwise, show a default image
+                    if ($profile_picture) {
+                        echo "<img src='uploads/" . htmlspecialchars($profile_picture) . "' alt='Profile Picture' style='width: 150px; height: 150px; border-radius: 10px;'>";
+                    } else {
+                        echo "📷";
+                    }
+                ?>
+            </div>
+            <div class="profile-details">
+                <h2>User Profile</h2>
+                <div class="details">
+                    <div>
+                        <label for="name">Name</label>
+                        <input type="text" id="name" value="<?php echo htmlspecialchars($name); ?>" readonly>
+                    </div>
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" value="<?php echo htmlspecialchars($email); ?>" readonly>
+                    </div>
+                    <div>
+                        <label for="gender">Gender</label>
+                        <input type="text" id="gender" value="<?php echo htmlspecialchars($gender); ?>" readonly>
+                    </div>
+                    <div>
+                        <label for="weight">Weight</label>
+                        <input type="number" id="weight" value="<?php echo htmlspecialchars($weight); ?>" readonly>
+                    </div>
+                    <div>
+                        <label for="height">Height</label>
+                        <input type="number" id="height" value="<?php echo htmlspecialchars($height); ?>" readonly>
+                    </div>
+                    <div>
+                        <label for="age">Age</label>
+                        <input type="number" id="age" value="<?php echo htmlspecialchars($age); ?>" readonly>
+                    </div>
+                </div>
+                <div class="edit-buttons">
+                    <button onclick="enableEdit()">Edit Profile</button>
+                    <button>Edit Profile Photo</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="activities">
+            <h3>Latest Activities</h3>
+            <div class="activities-grid">
+                <div class="activity-card">
+                    <h4>Exercises</h4>
+                    <p>4.5k Steps<br>11/10/2024</p>
+                </div>
+                <div class="activity-card">
+                    <h4>Weight Goal</h4>
+                    <p>70kg Target<br>Progress: 80%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function enableEdit() {
+            // Enable the form fields for editing
+            document.getElementById('name').removeAttribute('readonly');
+            document.getElementById('email').removeAttribute('readonly');
+            document.getElementById('gender').removeAttribute('readonly');
+            document.getElementById('weight').removeAttribute('readonly');
+            document.getElementById('height').removeAttribute('readonly');
+            document.getElementById('age').removeAttribute('readonly');
+        }
+    </script>
+</body>
+</html>

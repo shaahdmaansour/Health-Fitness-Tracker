@@ -1,0 +1,37 @@
+<!-- accounts/templates/logout.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="logout-container">
+        <h1>Goodbye!</h1>
+        <p>You have successfully logged out.</p>
+        <p>Click below to log in again:</p>
+        <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+    </div>
+
+    <!-- Optional: Add some styling for the logout page -->
+    <style>
+        .logout-container {
+            text-align: center;
+            padding: 50px;
+            margin-top: 100px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</body>
+</html>
