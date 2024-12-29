@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goals Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        nav ul li a.active {
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+
+        .btn-logout {
+            padding: 0.5rem 1rem;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Main Goals Section */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        .header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #666;
+        }
+
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .progress {
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #a78bfa;
+        }
+
+        .steps-section {
+            text-align: center;
+        }
+
+        .steps-section h3 {
+            margin-bottom: 1rem;
+        }
+
+        .steps-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 5px solid #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 1rem auto;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 2rem;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 10px;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .setup-btn {
+            padding: 0.5rem 1rem;
+            background-color: #a78bfa;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .setup-btn:hover {
+            background-color: #9061f9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Logo</div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="userProfile.html">Profile</a></li>
+                <li><a href="goals.html" class="active">Goals</a></li>
+                <li><a href="checkin.html">Check-In</a></li>
+                <li><a href="reminders.html">Reminders</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </nav>
+        <button class="btn-logout" onclick="window.location.href='logout.html'">Log Out</button>
+    </header>
+
+    <main class="container">
+        <div class="header">
+            <h1>Your Fitness Goals</h1>
+            <p>Track and manage your fitness journey</p>
+            <button class="setup-btn" onclick="openGoalsSetup()">Would you like help setting up your goals?</button>
+        </div>
+
+        <div class="goals-grid">
+            <div class="card">
+                <h3>Daily Nutrition Goals</h3>
+                <ul>
+                    <li>Calories: 1200</li>
+                    <li>Carbohydrates: 150g (50%)</li>
+                    <li>Fat: 40g (30%)</li>
+                    <li>Protein: 60g (20%)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Calories by Meal</h3>
+                <ul>
+                    <li>Breakfast</li>
+                    <li>Lunch</li>
+                    <li>Dinner</li>
+                    <li>Snack</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Micronutrients</h3>
+                <ul>
+                    <li>Saturated Fat: 13g</li>
+                    <li>Polyunsaturated Fat</li>
+                    <li>Monounsaturated Fat</li>
+                    <li>Cholesterol</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Fitness</h3>
+                <ul>
+                    <li>Calories Burned/Week: 0</li>
+                    <li>Workouts/Week: 0</li>
+                    <li>Minutes/Workout: 0</li>
+                    <li>Exercise Calories</li>
+                </ul>
+            </div>
+            <div class="card steps-section">
+                <h3>Steps Goal</h3>
+                <p>Goal: 1000 steps/day</p>
+                <div class="steps-circle">80%</div>
+                <p>Completed 800 steps</p>
+                <div class="progress">
+                    <div class="progress-bar" style="width: 80%;"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for goals setup -->
+    <div id="goalsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Let's Set Up Your Goals</h2>
+            <div id="questionContainer">
+                <!-- Questions will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Fitness Tracker. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Initialize Supabase client
+        const supabaseUrl = 'https://ubthdxqjtxinukuochpe.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVidGhkeHFqdHhpbnVrdW9jaHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU0NDMwODUsImV4cCI6MjA1MTAxOTA4NX0.fmP6rs3Uea5m6bvkrZsoFuMjFs-f7ucycfExjNXYP1c'
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey)
+
+        // Load user's goals when page loads
+        document.addEventListener('DOMContentLoaded', loadUserGoals)
+
+        async function loadUserGoals() {
+            try {
+                const { data: { user } } = await supabase.auth.getUser()
+                if (!user) {
+                    window.location.href = 'login.html'
+                    return
+                }
+
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', user.id)
+                    .single()
+
+                if (profile) {
+                    calculateAndDisplayGoals(profile)
+                }
+            } catch (error) {
+                console.error('Error loading goals:', error)
+            }
+        }
+
+        function calculateBMR(weight, height, age, gender) {
+            if (gender === 'male') {
+                return 10 * weight + 6.25 * height - 5 * age + 5
+            } else {
+                return 10 * weight + 6.25 * height - 5 * age - 161
+            }
+        }
+
+        function calculateMacros(totalCalories) {
+            const protein = Math.round((totalCalories * 0.4) / 4)
+            const carbs = Math.round((totalCalories * 0.3) / 4)
+            const fats = Math.round((totalCalories * 0.3) / 9)
+            return { protein, carbs, fats }
+        }
+
+        function calculateAndDisplayGoals(profile) {
+            console.log('Calculating goals for profile:', profile) // Debug log
+
+            const bmr = calculateBMR(profile.weight, profile.height, profile.age, profile.gender)
+            console.log('Calculated BMR:', bmr) // Debug log
+
+            const activityFactors = {
+                sedentary: 1.2,
+                light: 1.375,
+                moderate: 1.55,
+                very: 1.725,
+                extra: 1.9
+            }
+
+            const activityLevel = profile.activity_level || 'sedentary'
+            const totalCalories = Math.round(bmr * activityFactors[activityLevel])
+            const macros = calculateMacros(totalCalories)
+
+            console.log('Calculated values:', { // Debug log
+                totalCalories,
+                macros,
+                activityLevel
+            })
+
+            // Update the Daily Nutrition Goals card with animation
+            const nutritionCard = document.querySelector('.card:first-child ul')
+            nutritionCard.style.transition = 'opacity 0.3s'
+            nutritionCard.style.opacity = '0'
+            
+            setTimeout(() => {
+                nutritionCard.innerHTML = `
+                    <li>Calories: ${totalCalories} kcal</li>
+                    <li>Protein: ${macros.protein}g (40%)</li>
+                    <li>Carbohydrates: ${macros.carbs}g (30%)</li>
+                    <li>Fat: ${macros.fats}g (30%)</li>
+                `
+                nutritionCard.style.opacity = '1'
+            }, 300)
+        }
+
+        function openGoalsSetup() {
+            const modal = document.getElementById('goalsModal')
+            const questionContainer = document.getElementById('questionContainer')
+            
+            questionContainer.innerHTML = `
+                <form id="activityForm">
+                    <h3>What is your activity level?</h3>
+                    <div>
+                        <input type="radio" id="sedentary" name="activity" value="sedentary">
+                        <label for="sedentary">Sedentary (little or no exercise)</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="light" name="activity" value="light">
+                        <label for="light">Lightly active (light exercise 1-3 days/week)</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="moderate" name="activity" value="moderate">
+                        <label for="moderate">Moderately active (moderate exercise 3-5 days/week)</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="very" name="activity" value="very">
+                        <label for="very">Very active (hard exercise 6-7 days/week)</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="extra" name="activity" value="extra">
+                        <label for="extra">Extra active (very hard exercise & physical job)</label>
+                    </div>
+                    <button type="submit" class="setup-btn">Calculate Goals</button>
+                </form>
+            `
+
+            modal.style.display = 'block'
+
+            document.getElementById('activityForm').onsubmit = async (e) => {
+                e.preventDefault()
+                const activityLevel = document.querySelector('input[name="activity"]:checked').value
+                await updateUserGoals(activityLevel)
+                closeModal()
+            }
+        }
+
+        async function updateUserGoals(activityLevel) {
+            try {
+                const { data: { user } } = await supabase.auth.getUser()
+                if (!user) return
+
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', user.id)
+                    .single()
+
+                if (profile) {
+                    profile.activity_level = activityLevel
+                    calculateAndDisplayGoals(profile)
+
+                    // Save to database
+                    await supabase
+                        .from('profiles')
+                        .update({ activity_level: activityLevel })
+                        .eq('id', user.id)
+                }
+            } catch (error) {
+                console.error('Error updating goals:', error)
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('goalsModal').style.display = 'none'
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('goalsModal')
+            if (event.target == modal) {
+                closeModal()
+            }
+        }
+    </script>
+</body>
+</html>

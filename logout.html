@@ -1,0 +1,76 @@
+<!-- accounts/templates/logout.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logging Out</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        .logout-container {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .loading {
+            margin: 20px 0;
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-container">
+        <div class="loading">Logging out...</div>
+    </div>
+
+    <script>
+        // Initialize Supabase client
+        const supabaseUrl = 'https://ubthdxqjtxinukuochpe.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVidGhkeHFqdHhpbnVrdW9jaHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU0NDMwODUsImV4cCI6MjA1MTAxOTA4NX0.fmP6rs3Uea5m6bvkrZsoFuMjFs-f7ucycfExjNXYP1c'
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey)
+
+        async function handleLogout() {
+            try {
+                // Sign out from Supabase
+                const { error } = await supabase.auth.signOut()
+                
+                if (error) {
+                    throw error
+                }
+
+                // Clear any stored session data
+                localStorage.clear()
+                sessionStorage.clear()
+                
+                // Force redirect to login.html
+                window.location.replace('login.html')
+                
+            } catch (error) {
+                console.error('Error logging out:', error)
+                document.querySelector('.loading').textContent = 'Error logging out. Redirecting to login...'
+                // Even if there's an error, redirect to login.html
+                setTimeout(() => {
+                    window.location.replace('login.html')
+                }, 2000)
+            }
+        }
+
+        // Execute logout immediately when page loads
+        handleLogout()
+    </script>
+</body>
+</html>

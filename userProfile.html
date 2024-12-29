@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        nav ul li a.active {
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+
+        .btn-logout {
+            padding: 0.5rem 1rem;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Main Profile Section */
+        .profile-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .profile-header {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .user-email {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .details {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .detail-item {
+            margin-bottom: 15px;
+        }
+
+        .detail-item label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .detail-item select,
+        .detail-item input {
+            width: 100%;
+            max-width: 300px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .save-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .save-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Activities Section */
+        .activities {
+            margin-top: 2rem;
+            padding: 20px;
+        }
+
+        .activities h3 {
+            margin-bottom: 1rem;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .activity-card {
+            background-color: #fff;
+            padding: 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .activity-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .activity-card p {
+            color: #666;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Logo</div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="userProfile.html" class="active">Profile</a></li>
+                <li><a href="goals.html">Goals</a></li>
+                <li><a href="checkin.html">Check-In</a></li>
+                <li><a href="reminders.html">Reminders</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </nav>
+        <button class="btn-logout" onclick="window.location.href='logout.html'">Log Out</button>
+    </header>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-image" onclick="document.getElementById('photoInput').click()">
+                <div id="profileImageContainer">📷</div>
+                <input type="file" id="photoInput" hidden accept="image/*" onchange="handlePhotoUpload(event)">
+            </div>
+            <div class="profile-info">
+                <div class="user-name" id="userName"></div>
+                <div class="user-email" id="userEmail"></div>
+                
+                <div class="details">
+                    <div class="detail-item">
+                        <label for="gender">Gender</label>
+                        <select id="gender" onchange="handleDetailUpdate('gender')">
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+
+                    <div class="detail-item">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" placeholder="Enter your age" onchange="handleDetailUpdate('age')">
+                    </div>
+
+                    <div class="detail-item">
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" id="weight" placeholder="Enter your weight" onchange="handleDetailUpdate('weight')">
+                    </div>
+
+                    <div class="detail-item">
+                        <label for="height">Height (cm)</label>
+                        <input type="number" id="height" placeholder="Enter your height" onchange="handleDetailUpdate('height')">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="activities">
+            <h3>Latest Activities</h3>
+            <div class="activities-grid">
+                <div class="activity-card">
+                    <h4>Exercises</h4>
+                    <p>4.5k Steps<br>11/10/2024</p>
+                </div>
+                <div class="activity-card">
+                    <h4>Weight Goal</h4>
+                    <p>70kg Target<br>Progress: 80%</p>
+                </div>
+                <!-- You can add more activity cards as needed -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const supabaseUrl = 'https://ubthdxqjtxinukuochpe.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVidGhkeHFqdHhpbnVrdW9jaHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU0NDMwODUsImV4cCI6MjA1MTAxOTA4NX0.fmP6rs3Uea5m6bvkrZsoFuMjFs-f7ucycfExjNXYP1c'
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey)
+
+        async function loadProfile() {
+            try {
+                const { data: { user }, error: authError } = await supabase.auth.getUser()
+                
+                if (authError) {
+                    console.error('Auth error:', authError)
+                    window.location.href = 'login.html'
+                    return
+                }
+
+                if (!user) {
+                    console.log('No user found')
+                    window.location.href = 'login.html'
+                    return
+                }
+
+                // Debug: Log user ID
+                console.log('User ID:', user.id)
+
+                const { data: profile, error: profileError } = await supabase
+                    .from('profiles')
+                    .select('*')  // Select all columns to see what we get
+                    .eq('id', user.id)
+                    .single()
+
+                // Debug: Log the full response
+                console.log('Profile response:', { data: profile, error: profileError })
+
+                if (profileError) {
+                    console.error('Profile error:', profileError)
+                    return
+                }
+
+                if (profile) {
+                    // Debug: Log the full profile
+                    console.log('Full profile data:', profile)
+
+                    const userNameElement = document.getElementById('userName')
+                    const userEmailElement = document.getElementById('userEmail')
+
+                    if (userNameElement) {
+                        userNameElement.textContent = profile.username || 'Username not found'
+                        console.log('Username set to:', profile.username)
+                    }
+
+                    if (userEmailElement) {
+                        userEmailElement.textContent = user.email
+                        console.log('Email set to:', user.email)
+                    }
+
+                    // Display profile picture if exists
+                    const imageContainer = document.getElementById('profileImageContainer')
+                    if (imageContainer && profile.avatar_url) {
+                        imageContainer.innerHTML = `
+                            <img src="${profile.avatar_url}" 
+                                 alt="Profile Picture" 
+                                 style="width: 100%; height: 100%; object-fit: cover;">
+                        `
+                    }
+
+                    // Set existing values if they exist
+                    const fields = ['gender', 'age', 'weight', 'height']
+                    fields.forEach(field => {
+                        const element = document.getElementById(field)
+                        if (element && profile[field]) {
+                            element.value = profile[field]
+                        }
+                    })
+                } else {
+                    console.log('No profile data found')
+                }
+
+                // Load activities (you'll need to implement this when you have activity data)
+                const { data: activities, error: activitiesError } = await supabase
+                    .from('activities')  // You'll need to create this table
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .order('created_at', { ascending: false })
+                    .limit(5)
+
+                if (activitiesError) {
+                    console.error('Error loading activities:', activitiesError)
+                } else if (activities) {
+                    // Update activities display
+                    const activitiesGrid = document.querySelector('.activities-grid')
+                    activitiesGrid.innerHTML = activities.map(activity => `
+                        <div class="activity-card">
+                            <h4>${activity.type}</h4>
+                            <p>${activity.details}<br>${new Date(activity.created_at).toLocaleDateString()}</p>
+                        </div>
+                    `).join('')
+                }
+
+            } catch (error) {
+                console.error('Error loading profile:', error)
+            }
+        }
+
+        async function handleDetailUpdate(field) {
+            try {
+                const value = document.getElementById(field).value
+                if (!value) return
+
+                const { data: { user } } = await supabase.auth.getUser()
+                const { error } = await supabase
+                    .from('profiles')
+                    .update({ [field]: value })
+                    .eq('id', user.id)
+
+                if (error) throw error
+
+                // Convert input to text after successful update
+                convertToText(field, value)
+
+            } catch (error) {
+                console.error('Error updating profile:', error)
+            }
+        }
+
+        function convertToText(field, value) {
+            const container = document.getElementById(field).parentElement
+            const label = container.querySelector('label').textContent
+            const input = document.getElementById(field)
+            
+            // Create text display
+            const textDisplay = document.createElement('div')
+            textDisplay.className = 'detail-value'
+            textDisplay.textContent = field === 'gender' ? value :
+                                    field === 'weight' ? `${value} kg` :
+                                    field === 'height' ? `${value} cm` :
+                                    `${value}`
+            
+            // Replace input with text
+            input.style.display = 'none'
+            container.appendChild(textDisplay)
+        }
+
+        async function handlePhotoUpload(event) {
+            try {
+                const file = event.target.files[0]
+                if (!file) return
+
+                // Show loading state
+                const imageContainer = document.getElementById('profileImageContainer')
+                imageContainer.innerHTML = 'Uploading...'
+
+                const { data: { user } } = await supabase.auth.getUser()
+                const fileExt = file.name.split('.').pop()
+                const fileName = `${user.id}-${Date.now()}.${fileExt}`
+
+                // Upload file to Supabase storage
+                const { data, error: uploadError } = await supabase.storage
+                    .from('avatars')
+                    .upload(fileName, file, {
+                        upsert: true
+                    })
+
+                if (uploadError) throw uploadError
+
+                // Get the public URL
+                const { data: { publicUrl } } = supabase.storage
+                    .from('avatars')
+                    .getPublicUrl(fileName)
+
+                // Update profile with new avatar URL
+                const { error: updateError } = await supabase
+                    .from('profiles')
+                    .update({ avatar_url: publicUrl })
+                    .eq('id', user.id)
+
+                if (updateError) throw updateError
+
+                // Display the new image
+                imageContainer.innerHTML = `<img src="${publicUrl}" alt="Profile Picture" style="width: 100%; height: 100%; object-fit: cover;">`
+
+            } catch (error) {
+                console.error('Error:', error)
+                document.getElementById('profileImageContainer').innerHTML = '📷'
+            }
+        }
+
+        // Make sure to call loadProfile when the page loads
+        document.addEventListener('DOMContentLoaded', loadProfile)
+    </script>
+</body>
+</html>

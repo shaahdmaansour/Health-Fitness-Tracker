@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-In</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        nav ul li a.active {
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+
+        .btn-logout {
+            padding: 0.5rem 1rem;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Main Check-In Section */
+        .checkin-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkin-header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .checkin-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .checkin-section {
+            margin-bottom: 2rem;
+        }
+
+        .checkin-section h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .submit-btn {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            margin: 1rem auto;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        .edit-link {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .edit-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Logo</div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="userProfile.html">Profile</a></li>
+                <li><a href="goals.html">Goals</a></li>
+                <li><a href="checkin.html" class="active">Check-In</a></li>
+                <li><a href="reminders.html">Reminders</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </nav>
+        <button class="btn-logout">Log Out</button>
+    </header>
+
+    <div class="checkin-container">
+        <div class="checkin-header">
+            <h2>Check-In</h2>
+        </div>
+
+        <div class="checkin-section">
+            <h3>Enter Today's Weight</h3>
+            <div class="form-group">
+                <label for="weight">Weight (kg or lbs)</label>
+                <input type="number" id="weight" placeholder="Enter your weight">
+            </div>
+        </div>
+
+        <div class="checkin-section">
+            <h3>Other Measurements</h3>
+            <div class="form-group">
+                <label for="waist">Waist (inches or cm)</label>
+                <input type="number" id="waist" placeholder="Enter waist measurement">
+            </div>
+            <div class="form-group">
+                <label for="hips">Hips (inches or cm)</label>
+                <input type="number" id="hips" placeholder="Enter hips measurement">
+            </div>
+        </div>
+
+        <div class="checkin-section">
+            <a href="#" class="edit-link">Edit Previous Entries</a>
+        </div>
+
+        <button class="submit-btn">Submit Check-In</button>
+    </div>
+</body>
+</html>

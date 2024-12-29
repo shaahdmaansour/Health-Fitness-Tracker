@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        nav ul li a.active {
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+
+        .btn-logout {
+            padding: 0.5rem 1rem;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Main Settings Section */
+        .settings-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .settings-header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .settings-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .settings-section {
+            margin-bottom: 2rem;
+        }
+
+        .settings-section h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .settings-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .settings-option label {
+            font-weight: bold;
+        }
+
+        .settings-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        .settings-option select {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .save-btn {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            margin: 0 auto;
+        }
+
+        .save-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Logo</div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="userProfile.html">Profile</a></li>
+                <li><a href="goals.html">Goals</a></li>
+                <li><a href="checkin.html">Check-In</a></li>
+                <li><a href="reminders.html">Reminders</a></li>
+                <li><a href="settings.html" class="active">Settings</a></li>
+            </ul>
+        </nav>
+        <button class="btn-logout">Log Out</button>
+    </header>
+
+    <div class="settings-container">
+        <div class="settings-header">
+            <h2>Settings</h2>
+        </div>
+
+        <div class="settings-section">
+            <h3>Account Settings</h3>
+            <div class="settings-option">
+                <label for="change-password">Change Password</label>
+                <button id="change-password">Edit</button>
+            </div>
+            <div class="settings-option">
+                <label for="change-units">Change Units</label>
+                <select id="change-units">
+                    <option value="metric">Metric</option>
+                    <option value="imperial">Imperial</option>
+                </select>
+            </div>
+            <div class="settings-option">
+                <label for="change-language">Change Language</label>
+                <select id="change-language">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                </select>
+            </div>
+            <div class="settings-option">
+                <label for="delete-account">Delete Account</label>
+                <button id="delete-account">Delete</button>
+            </div>
+            <div class="settings-option">
+                <label for="system-theme">System Theme</label>
+                <select id="system-theme">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3>Privacy Settings</h3>
+            <div class="settings-option">
+                <label for="terms">Terms</label>
+                <button id="terms">View</button>
+            </div>
+            <div class="settings-option">
+                <label for="privacy-policy">Privacy Policy</label>
+                <button id="privacy-policy">View</button>
+            </div>
+            <div class="settings-option">
+                <label for="privacy-settings">Privacy Settings</label>
+                <button id="privacy-settings">Manage</button>
+            </div>
+            <div class="settings-option">
+                <label for="contact-us">Contact Us</label>
+                <button id="contact-us">Contact</button>
+            </div>
+        </div>
+
+        <button class="save-btn">Save Changes</button>
+    </div>
+</body>
+</html>
